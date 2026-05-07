@@ -1,29 +1,40 @@
 package ui;
 
+import service.AuthService;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class LoginUI {
 
+    private AuthService auth =
+            new AuthService();
+
     public void criarTelaLogin() {
 
-        JFrame frame = new JFrame("Login");
+        JFrame frame = new JFrame("StayEase Login");
 
-        frame.setSize(400, 500);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(450, 550);
+
+        frame.setDefaultCloseOperation(
+                JFrame.EXIT_ON_CLOSE
+        );
+
         frame.setLayout(new BorderLayout());
 
-        // ======================
-        // IMAGEM
-        // ======================
+        frame.getContentPane().setBackground(
+                new Color(245,245,245)
+        );
+
+
 
         ImageIcon icon =
-                new ImageIcon("src/images/hotel.jpg");
+                new ImageIcon("src/images/EliteHost.png");
 
         Image img =
                 icon.getImage().getScaledInstance(
-                        250,
-                        180,
+                        200,
+                        200,
                         Image.SCALE_SMOOTH
                 );
 
@@ -37,13 +48,42 @@ public class LoginUI {
                 JLabel.CENTER
         );
 
-        // ======================
-        // CAMPOS
-        // ======================
+
+        JLabel titulo =
+                new JLabel("");
+
+        titulo.setFont(
+                new Font(
+                        "Times New Roman",
+                        Font.BOLD,
+                        28
+                )
+        );
+
+        titulo.setHorizontalAlignment(
+                JLabel.CENTER
+        );
+
+
 
         JPanel panel = new JPanel();
 
-        panel.setLayout(new GridLayout(5, 1));
+        panel.setBackground(
+                new Color(245,245,245)
+        );
+
+        panel.setBorder(
+                BorderFactory.createEmptyBorder(
+                        20,
+                        40,
+                        20,
+                        40
+                )
+        );
+
+        panel.setLayout(
+                new GridLayout(8,1,10,10)
+        );
 
         JTextField usuarioField =
                 new JTextField();
@@ -54,6 +94,25 @@ public class LoginUI {
         JButton entrarBtn =
                 new JButton("Entrar");
 
+        JButton cadastrarBtn =
+                new JButton("Cadastrar");
+
+
+
+        entrarBtn.setBackground(
+                new Color(52,152,219)
+        );
+
+        entrarBtn.setForeground(Color.WHITE);
+
+        cadastrarBtn.setBackground(
+                new Color(46,204,113)
+        );
+
+        cadastrarBtn.setForeground(Color.WHITE);
+
+
+
         panel.add(new JLabel("Usuário"));
         panel.add(usuarioField);
 
@@ -62,9 +121,9 @@ public class LoginUI {
 
         panel.add(entrarBtn);
 
-        // ======================
-        // AÇÃO LOGIN
-        // ======================
+        panel.add(cadastrarBtn);
+
+
 
         entrarBtn.addActionListener(e -> {
 
@@ -76,8 +135,7 @@ public class LoginUI {
                             senhaField.getPassword()
                     );
 
-            if (usuario.equals("admin")
-                    && senha.equals("123")) {
+            if (auth.login(usuario, senha)) {
 
                 frame.dispose();
 
@@ -90,7 +148,41 @@ public class LoginUI {
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Login inválido"
+                        "Usuário ou senha inválidos!"
+                );
+            }
+        });
+
+
+
+        cadastrarBtn.addActionListener(e -> {
+
+            String usuario =
+                    usuarioField.getText();
+
+            String senha =
+                    new String(
+                            senhaField.getPassword()
+                    );
+
+            boolean sucesso =
+                    auth.cadastrar(
+                            usuario,
+                            senha
+                    );
+
+            if (sucesso) {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Cadastro realizado!"
+                );
+
+            } else {
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Usuário já existe!"
                 );
             }
         });
@@ -101,7 +193,11 @@ public class LoginUI {
 
         frame.add(imagem, BorderLayout.NORTH);
 
-        frame.add(panel, BorderLayout.CENTER);
+        frame.add(titulo, BorderLayout.CENTER);
+
+        frame.add(panel, BorderLayout.SOUTH);
+
+        frame.setLocationRelativeTo(null);
 
         frame.setVisible(true);
     }

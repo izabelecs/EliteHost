@@ -1,25 +1,15 @@
-// =======================
-// Cliente.java
-// package: model
-// =======================
-
 package model;
 
-public class Cliente {
-
-    private String nome;
-    private String cpf;
+public class Cliente extends Pessoa {
 
     public Cliente(String nome, String cpf) {
-        this.nome = nome;
-        this.cpf = cpf;
+
+        super(nome, cpf);
     }
 
-    public String getNome() {
-        return nome;
-    }
+    @Override
+    public String getTipoPessoa() {
 
-    public String getCpf() {
-        return cpf;
+        return "Cliente";
     }
 }
