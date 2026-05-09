@@ -1,129 +1,180 @@
 package ui;
 
-import service.AuthService;
+import model.Usuario;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class LoginUI {
 
-    private AuthService auth =
-            new AuthService();
-
     public void criarTelaLogin() {
 
-        JFrame frame = new JFrame("StayEase Login");
+        JFrame frame = new JFrame("Login");
 
-        frame.setSize(450, 550);
+        frame.setSize(500, 600);
+
+        frame.setMinimumSize(
+                new Dimension(400, 500)
+        );
 
         frame.setDefaultCloseOperation(
                 JFrame.EXIT_ON_CLOSE
         );
 
-        frame.setLayout(new BorderLayout());
+        frame.setLocationRelativeTo(null);
 
-        frame.getContentPane().setBackground(
-                new Color(245,245,245)
+        // ======================
+        // PAINEL PRINCIPAL
+        // ======================
+
+        JPanel mainPanel = new JPanel();
+
+        mainPanel.setLayout(
+                new GridBagLayout()
         );
 
-
-
-        ImageIcon icon =
-                new ImageIcon("src/images/EliteHost.png");
-
-        Image img =
-                icon.getImage().getScaledInstance(
-                        200,
-                        200,
-                        Image.SCALE_SMOOTH
-                );
-
-        ImageIcon imagemRedimensionada =
-                new ImageIcon(img);
-
-        JLabel imagem =
-                new JLabel(imagemRedimensionada);
-
-        imagem.setHorizontalAlignment(
-                JLabel.CENTER
+        mainPanel.setBackground(
+                new Color(245, 245, 245)
         );
 
+        frame.setContentPane(mainPanel);
 
-        JLabel titulo =
-                new JLabel("");
+        // ======================
+        // CARD LOGIN
+        // ======================
 
-        titulo.setFont(
-                new Font(
-                        "Times New Roman",
-                        Font.BOLD,
-                        28
+        JPanel card = new JPanel();
+
+        card.setLayout(
+                new BoxLayout(
+                        card,
+                        BoxLayout.Y_AXIS
                 )
         );
 
-        titulo.setHorizontalAlignment(
-                JLabel.CENTER
-        );
+        card.setBackground(Color.WHITE);
 
-
-
-        JPanel panel = new JPanel();
-
-        panel.setBackground(
-                new Color(245,245,245)
-        );
-
-        panel.setBorder(
-                BorderFactory.createEmptyBorder(
-                        20,
+        card.setBorder(
+                new EmptyBorder(
+                        30,
                         40,
-                        20,
+                        30,
                         40
                 )
         );
 
-        panel.setLayout(
-                new GridLayout(8,1,10,10)
+        card.setMaximumSize(
+                new Dimension(350, 500)
         );
+
+        // ======================
+        // IMAGEM
+        // ======================
+
+        ImageIcon icon =
+                new ImageIcon(
+                        "src/images/hotel.jpg"
+                );
+
+        Image img =
+                icon.getImage().getScaledInstance(
+                        220,
+                        150,
+                        Image.SCALE_SMOOTH
+                );
+
+        JLabel imagem =
+                new JLabel(
+                        new ImageIcon(img)
+                );
+
+        imagem.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        // ======================
+        // TÍTULO
+        // ======================
+
+        JLabel titulo =
+                new JLabel("Hotel Login");
+
+        titulo.setFont(
+                new Font(
+                        "Arial",
+                        Font.BOLD,
+                        24
+                )
+        );
+
+        titulo.setAlignmentX(
+                Component.CENTER_ALIGNMENT
+        );
+
+        // ======================
+        // CAMPOS
+        // ======================
 
         JTextField usuarioField =
                 new JTextField();
 
+        usuarioField.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
         JPasswordField senhaField =
                 new JPasswordField();
+
+        senhaField.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        40
+                )
+        );
+
+        // ======================
+        // BOTÕES
+        // ======================
 
         JButton entrarBtn =
                 new JButton("Entrar");
 
-        JButton cadastrarBtn =
-                new JButton("Cadastrar");
-
-
-
         entrarBtn.setBackground(
-                new Color(52,152,219)
+                new Color(33, 150, 243)
         );
 
-        entrarBtn.setForeground(Color.WHITE);
-
-        cadastrarBtn.setBackground(
-                new Color(46,204,113)
+        entrarBtn.setForeground(
+                Color.WHITE
         );
 
-        cadastrarBtn.setForeground(Color.WHITE);
+        entrarBtn.setFocusPainted(false);
 
+        entrarBtn.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        45
+                )
+        );
 
+        JButton cadastroBtn =
+                new JButton("Criar conta");
 
-        panel.add(new JLabel("Usuário"));
-        panel.add(usuarioField);
+        cadastroBtn.setFocusPainted(false);
 
-        panel.add(new JLabel("Senha"));
-        panel.add(senhaField);
+        cadastroBtn.setMaximumSize(
+                new Dimension(
+                        Integer.MAX_VALUE,
+                        45
+                )
+        );
 
-        panel.add(entrarBtn);
-
-        panel.add(cadastrarBtn);
-
-
+        // ======================
+        // LOGIN
+        // ======================
 
         entrarBtn.addActionListener(e -> {
 
@@ -135,7 +186,11 @@ public class LoginUI {
                             senhaField.getPassword()
                     );
 
-            if (auth.login(usuario, senha)) {
+            if (usuario.equals(
+                    Usuario.usuarioCadastrado
+            ) && senha.equals(
+                    Usuario.senhaCadastrada
+            )) {
 
                 frame.dispose();
 
@@ -148,56 +203,93 @@ public class LoginUI {
 
                 JOptionPane.showMessageDialog(
                         null,
-                        "Usuário ou senha inválidos!"
-                );
-            }
-        });
-
-
-
-        cadastrarBtn.addActionListener(e -> {
-
-            String usuario =
-                    usuarioField.getText();
-
-            String senha =
-                    new String(
-                            senhaField.getPassword()
-                    );
-
-            boolean sucesso =
-                    auth.cadastrar(
-                            usuario,
-                            senha
-                    );
-
-            if (sucesso) {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Cadastro realizado!"
-                );
-
-            } else {
-
-                JOptionPane.showMessageDialog(
-                        null,
-                        "Usuário já existe!"
+                        "Login inválido"
                 );
             }
         });
 
         // ======================
-        // MONTAGEM
+        // CADASTRO
         // ======================
 
-        frame.add(imagem, BorderLayout.NORTH);
+        cadastroBtn.addActionListener(e -> {
 
-        frame.add(titulo, BorderLayout.CENTER);
+            frame.dispose();
 
-        frame.add(panel, BorderLayout.SOUTH);
+            CadastroUI cadastro =
+                    new CadastroUI();
 
-        frame.setLocationRelativeTo(null);
+            cadastro.criarTelaCadastro();
+
+        });
+
+        // ======================
+        // COMPONENTES
+        // ======================
+
+        card.add(imagem);
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 20)
+                )
+        );
+
+        card.add(titulo);
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 30)
+                )
+        );
+
+        card.add(new JLabel("Usuário"));
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 5)
+                )
+        );
+
+        card.add(usuarioField);
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 20)
+                )
+        );
+
+        card.add(new JLabel("Senha"));
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 5)
+                )
+        );
+
+        card.add(senhaField);
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 30)
+                )
+        );
+
+        card.add(entrarBtn);
+
+        card.add(
+                Box.createRigidArea(
+                        new Dimension(0, 10)
+                )
+        );
+
+        card.add(cadastroBtn);
+
+        // ======================
+        // FINALIZAÇÃO
+        // ======================
+
+        mainPanel.add(card);
 
         frame.setVisible(true);
     }
