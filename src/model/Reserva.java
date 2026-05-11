@@ -1,8 +1,3 @@
-// =======================
-// Reserva.java
-// package: model
-// =======================
-
 package model;
 
 public class Reserva {

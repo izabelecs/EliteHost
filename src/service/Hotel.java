@@ -1,8 +1,3 @@
-// =======================
-// Hotel.java
-// package: service
-// =======================
-
 package service;
 
 import model.Cliente;

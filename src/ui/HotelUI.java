@@ -1,8 +1,3 @@
-// =======================
-// HotelUI.java
-// package: ui
-// =======================
-
 package ui;
 
 import model.Reserva;
@@ -24,9 +19,6 @@ public class HotelUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        // =======================
-        // TOPO
-        // =======================
 
         JPanel top = new JPanel();
 
@@ -77,17 +69,10 @@ public class HotelUI {
 
         top.add(reservarBtn);
 
-        // =======================
-        // CENTRO
-        // =======================
-
         JTextArea area = new JTextArea();
 
         JScrollPane scroll = new JScrollPane(area);
 
-        // =======================
-        // BAIXO
-        // =======================
 
         JPanel bottom = new JPanel();
 
@@ -100,9 +85,6 @@ public class HotelUI {
 
         bottom.add(cancelarBtn);
 
-        // =======================
-        // AÇÕES
-        // =======================
 
         reservarBtn.addActionListener(e -> {
 
@@ -158,9 +140,6 @@ public class HotelUI {
             );
         });
 
-        // =======================
-        // VISUAL
-        // =======================
 
         area.setEditable(false);
 

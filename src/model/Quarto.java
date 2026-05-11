@@ -1,6 +1,6 @@
 package model;
 
-public class Quarto implements Reservavel {
+public class Quarto {
 
     private int numero;
     private String tipo;
@@ -29,12 +29,10 @@ public class Quarto implements Reservavel {
         return disponivel;
     }
 
-    @Override
     public void reservar() {
         disponivel = false;
     }
 
-    @Override
     public void liberar() {
         disponivel = true;
     }
